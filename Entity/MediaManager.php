@@ -12,9 +12,10 @@ namespace Sonata\MediaBundle\Entity;
 
 use Sonata\CoreBundle\Entity\DoctrineBaseManager;
 use Doctrine\ORM\EntityManager;
+use Sonata\MediaBundle\Model\MediaManagerInterface;
 use Sonata\MediaBundle\Provider\Pool;
 
-class MediaManager extends DoctrineBaseManager
+class MediaManager extends DoctrineBaseManager implements MediaManagerInterface
 {
     /**
      * Constructor.
@@ -28,32 +29,5 @@ class MediaManager extends DoctrineBaseManager
         $this->pool = $pool;
 
         parent::__construct($class, $em);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function save($media, $andFlush = true)
-    {
-        /*
-         * Warning: previous method signature was : save(MediaInterface $media, $context = null, $providerName = null)
-         */
-
-        // BC compatibility for $context parameter
-        if ($andFlush && is_string($andFlush)) {
-            $media->setContext($andFlush);
-        }
-
-        // BC compatibility for $providerName parameter
-        if (3 == func_num_args()) {
-            $media->setProviderName(func_get_arg(2));
-        }
-
-        if ($andFlush && is_bool($andFlush)) {
-            parent::save($media, $andFlush);
-        } else {
-            // BC compatibility with previous signature
-            parent::save($media, true);
-        }
     }
 }
