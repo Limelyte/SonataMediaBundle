@@ -16,6 +16,7 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\MediaBundle\Model\MediaManagerInterface;
 use Sonata\MediaBundle\Provider\Pool;
 use Sonata\MediaBundle\Form\DataTransformer\ProviderDataTransformer;
 
@@ -26,16 +27,23 @@ abstract class BaseMediaAdmin extends Admin
     protected $pool;
 
     /**
+     * @var \Sonata\MediaBundle\Model\MediaManagerInterface
+     */
+    private $mediaManager;
+
+    /**
      * @param string                            $code
      * @param string                            $class
      * @param string                            $baseControllerName
      * @param \Sonata\MediaBundle\Provider\Pool $pool
+     * @param \Sonata\MediaBundle\Model\MediaManagerInterface $mediaManager
      */
-    public function __construct($code, $class, $baseControllerName, Pool $pool)
+    public function __construct($code, $class, $baseControllerName, Pool $pool, MediaManagerInterface $mediaManager)
     {
         parent::__construct($code, $class, $baseControllerName);
 
         $this->pool = $pool;
+        $this->mediaManager = $mediaManager;
     }
 
     /**
@@ -70,7 +78,7 @@ abstract class BaseMediaAdmin extends Admin
             return;
         }
 
-        $formMapper->getFormBuilder()->addModelTransformer(new ProviderDataTransformer($this->pool, $this->getClass()), true);
+        $formMapper->getFormBuilder()->addModelTransformer(new ProviderDataTransformer($this->pool, $this->mediaManager), true);
 
         $provider = $this->pool->getProvider($media->getProviderName());
 

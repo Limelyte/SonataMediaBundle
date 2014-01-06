@@ -11,6 +11,7 @@
 
 namespace Sonata\MediaBundle\Form\Type;
 
+use Sonata\MediaBundle\Model\MediaManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -27,16 +28,16 @@ class MediaType extends AbstractType
 {
     protected $pool;
 
-    protected $class;
+    protected $modelManager;
 
     /**
      * @param Pool   $pool
      * @param string $class
      */
-    public function __construct(Pool $pool, $class)
+    public function __construct(Pool $pool, MediaManagerInterface $modelManager)
     {
         $this->pool  = $pool;
-        $this->class = $class;
+        $this->modelManager = $modelManager;
     }
 
     /**
@@ -44,7 +45,7 @@ class MediaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer(new ProviderDataTransformer($this->pool, $this->class, array(
+        $builder->addModelTransformer(new ProviderDataTransformer($this->pool, $this->modelManager, array(
             'provider'      => $options['provider'],
             'context'       => $options['context'],
             'empty_on_new'  => $options['empty_on_new'],

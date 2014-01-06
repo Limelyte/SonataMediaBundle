@@ -11,6 +11,7 @@
 
 namespace Sonata\MediaBundle\Form\DataTransformer;
 
+use Sonata\MediaBundle\Model\MediaManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Sonata\MediaBundle\Provider\Pool;
 use Sonata\MediaBundle\Model\MediaInterface;
@@ -20,18 +21,21 @@ class ProviderDataTransformer implements DataTransformerInterface
     protected $pool;
 
     protected $options;
+    /**
+     * @var \Sonata\MediaBundle\Model\MediaManagerInterface
+     */
+    private $mediaManager;
 
     /**
-     * @param Pool   $pool
-     * @param string $class
-     * @param array  $options
+     * @param Pool $pool
+     * @param \Sonata\MediaBundle\Model\MediaManagerInterface $mediaManager
+     * @param array $options
      */
-    public function __construct(Pool $pool, $class, array $options = array())
+    public function __construct(Pool $pool, MediaManagerInterface $mediaManager, array $options = array())
     {
         $this->pool    = $pool;
         $this->options = $this->getOptions($options);
-        $this->class   = $class;
-
+        $this->mediaManager = $mediaManager;
     }
 
     /**
@@ -56,7 +60,7 @@ class ProviderDataTransformer implements DataTransformerInterface
     public function transform($value)
     {
         if ($value === null) {
-            return new $this->class;
+            return $this->mediaManager->create();
         }
 
         return $value;
@@ -88,7 +92,7 @@ class ProviderDataTransformer implements DataTransformerInterface
         }
 
         // create a new media to avoid erasing other media or not ...
-        $newMedia = $this->options['new_on_update'] ? new $this->class : $media;
+        $newMedia = $this->options['new_on_update'] ? $this->mediaManager->create() : $media;
 
         $newMedia->setProviderName($media->getProviderName());
         $newMedia->setContext($media->getContext());
