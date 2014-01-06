@@ -82,7 +82,7 @@ class MediaType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class'    => $this->class,
+            'data_class'    => $this->modelManager->getClass(),
             'provider'      => null,
             'context'       => null,
             'empty_on_new'  => true,
