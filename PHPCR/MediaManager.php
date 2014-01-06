@@ -34,10 +34,7 @@ class MediaManager extends AbstractMediaManager
     }
 
     /**
-     * Filter criteria for an identifier, phpcr-odm uses absolute paths and needs an identifier starting with a forward slash
-     *
-     * @param  array $criteria
-     * @return array
+     * {@inheritdoc}
      */
     protected function filterCriteria(array $criteria)
     {
@@ -51,11 +48,7 @@ class MediaManager extends AbstractMediaManager
     }
 
     /**
-     * Finds one media by the given criteria
-     *
-     * @param array $criteria
-     *
-     * @return Media
+     * {@inheritdoc}
      */
     public function findOneBy(array $criteria)
     {
@@ -69,11 +62,7 @@ class MediaManager extends AbstractMediaManager
     }
 
     /**
-     * Finds one media by the given criteria
-     *
-     * @param array $criteria
-     *
-     * @return Media
+     * {@inheritdoc}
      */
     public function findBy(array $criteria)
     {
@@ -87,32 +76,16 @@ class MediaManager extends AbstractMediaManager
     }
 
     /**
-     * Updates a media
-     *
-     * @param  \Sonata\MediaBundle\Model\MediaInterface $media
-     * @param  string                                   $context
-     * @param  string                                   $providerName
-     * @return void
+     * {@inheritdoc}
      */
-    public function save(MediaInterface $media, $context = null, $providerName = null)
+    public function save(MediaInterface $media, $andFlush = true)
     {
-        if ($context) {
-            $media->setContext($context);
-        }
-
-        if ($providerName) {
-            $media->setProviderName($providerName);
-        }
-
         // just in case the pool alter the media
         $this->modelManager->update($media);
     }
 
     /**
-     * Deletes a media
-     *
-     * @param  \Sonata\MediaBundle\Model\MediaInterface $media
-     * @return void
+     * {@inheritdoc}
      */
     public function delete(MediaInterface $media)
     {

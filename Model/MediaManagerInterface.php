@@ -55,11 +55,10 @@ interface MediaManagerInterface
     public function getClass();
 
     /**
-     * @param MediaInterface $media
-     * @param null           $context
-     * @param null           $providerName
+     * @param MediaInterface    $media
+     * @param bool              $andFlush
      *
      * @return void
      */
-    public function save(MediaInterface $media, $context = null, $providerName = null);
+    public function save(MediaInterface $media, $andFlush = true);
 }

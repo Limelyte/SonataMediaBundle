@@ -7,6 +7,22 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2014-01-05
+* [BC BREAK] The method signature for Sonata\MediaBundle\Model\MediaManagerInterface has changed from:
+
+  ```php
+  public function save(MediaInterface $media, $context = null, $providerName = null)
+  ```
+
+  to
+
+  ```php
+  public function save(MediaInterface $media, $andFlush = true)
+  ```
+
+  This change was due to the logic not really being needed in the class since you can achieve
+  the same thing via setter methods
+
 ### 2013-12-16
 
 * GalleryManager & MediaManager now extend DoctrineBaseManager from SonataCoreBundle.

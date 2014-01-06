@@ -48,19 +48,14 @@ class MediaManager extends AbstractMediaManager
     /**
      * {@inheritdoc}
      */
-    public function save(MediaInterface $media, $context = null, $providerName = null)
+    public function save(MediaInterface $media, $andFlush = true)
     {
-        if ($context) {
-            $media->setContext($context);
-        }
-
-        if ($providerName) {
-            $media->setProviderName($providerName);
-        }
-
         // just in case the pool alter the media
         $this->dm->persist($media);
-        $this->dm->flush();
+
+        if ($andFlush) {
+            $this->dm->flush();
+        }
     }
 
     /**
