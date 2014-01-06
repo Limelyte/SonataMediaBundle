@@ -61,9 +61,12 @@ class MediaManager extends AbstractMediaManager
     /**
      * {@inheritdoc}
      */
-    public function delete(MediaInterface $media)
+    public function delete(MediaInterface $media, $andFlush = true)
     {
         $this->dm->remove($media);
-        $this->dm->flush();
+
+        if ($andFlush) {
+            $this->dm->flush();
+        }
     }
 }

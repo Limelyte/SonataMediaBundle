@@ -24,10 +24,11 @@ interface MediaManagerInterface
      * Deletes a media
      *
      * @param MediaInterface $media
+     * @param bool           $andFlush
      *
      * @return void
      */
-    public function delete(MediaInterface $media);
+    public function delete(MediaInterface $media, $andFlush);
 
     /**
      * Finds many media by the given criteria
